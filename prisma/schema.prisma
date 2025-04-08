@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  uuid      String  @unique
+  email     String?
+  password  String?
+  image     String?
+  firstname String?
+  lastname  String?
+  phone     String  @unique
+
+  role   String @default("employee")
+  status String @default("รอยืนยัน")
+
+  department  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignments ProjectAssignment[] @relation("UserAssignments")
+}
+
+model Departments {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Projects {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  projectId  String
+  name       String
+  startDate  DateTime
+  endDate    DateTime
+  status     String @default("เปิดงาน")
+
+  assignments ProjectAssignment[] @relation("ProjectAssignments")
+  tasks Task[] @relation("TackProjects")
+}
+
+model Task {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  status    String   @default("ยังไม่เริ่ม")
+  projectId String   @db.ObjectId
+
+  project   Projects @relation("TackProjects" , fields: [projectId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProjectAssignment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId     String   @db.ObjectId
+  projectId  String   @db.ObjectId
+
+  userUUID    String?
+  ProjectUUID String?
+
+  role       String?
+  assignedAt DateTime @default(now())
+
+  user    User    @relation("UserAssignments", fields: [userId], references: [id])
+  project Projects @relation("ProjectAssignments", fields: [projectId], references: [id])
+}
