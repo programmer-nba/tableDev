@@ -1,9 +1,9 @@
-import { Departments } from './../../../node_modules/.prisma/client/index.d';
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 
 const prisma = new PrismaClient();
-
+import bcrypt from 'bcryptjs';
 export default defineEventHandler(async (event) => {
   const { password, firstname , lastname , phone, department } = await readBody(event);
 

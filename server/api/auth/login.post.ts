@@ -1,9 +1,11 @@
 //server/api/auth/login.post.ts
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 
 const prisma = new PrismaClient();
+
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export default defineEventHandler(async (event) => {
   const { phone, password } = await readBody(event);
