@@ -105,7 +105,7 @@
                 </tbody>
               </table>
               <div class="text-right mt-2">
-                <RouterLink to="/admin/project" class="text-green-500 text-sm font-medium hover:underline">View All Projects</RouterLink>
+                <RouterLink to="/admin/projects" class="text-green-500 text-sm font-medium hover:underline">View All Projects</RouterLink>
               </div>
             </div>
           </div>

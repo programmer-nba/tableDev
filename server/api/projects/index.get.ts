@@ -7,7 +7,11 @@ export default defineEventHandler(async () => {
   try {
     const projects = await prisma.projects.findMany({
       include: {
-        tasks: true,
+        tasks: {
+          include: {
+            subtasks: true, // ดึง subtasks ด้วย
+          },
+        },
       },
     });
     return { success: true, data: projects };
